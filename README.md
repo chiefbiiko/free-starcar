@@ -12,6 +12,12 @@ little tool to mine free starcar oneway rides
 + 👺 bike shed daemon mode
 + desktop notifications?
 
+## install
+
+```bash
+npm i -g chiefbiiko/free-starcar
+```
+
 ## usage
 
 
