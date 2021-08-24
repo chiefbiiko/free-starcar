@@ -1,5 +1,7 @@
 # free-starcar
 
+[![release](https://img.shields.io/github/v/release/chiefbiiko/free-starcar?include_prereleases)](https://github.com/chiefbiiko/free-starcar/releases/latest) [![GitHub license](https://img.shields.io/github/license/chiefbiiko/free-starcar.svg)](https://github.com/chiefbiiko/free-starcar/blob/main/LICENSE)
+
 little tool to mine free starcar oneway rides
 
 ## features
@@ -20,7 +22,8 @@ starcar --from Hamburg --to Berlin --daemon
 ## help
 
 ```bash
-free-starcar v0.0.0
+free-starcar v0.1.0
+chiefbiiko <hello@nugget.digital>
 Find free STARCAR rides
 
 USAGE:
@@ -35,3 +38,7 @@ OPTIONS:
     --from            Start location
     --to              Destination
 ```
+
+## license
+
+[MIT](./LICENSE)

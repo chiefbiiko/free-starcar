@@ -1,6 +1,6 @@
 {
     "name": "free-starcar",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "dependencies": {
         "jsdom": "17.0.0",
         "minimist": "1.2.5",
