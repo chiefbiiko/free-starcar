@@ -18,6 +18,7 @@ function main() {
     console.log(`v${pkg.version}`)
   } else if (argv.help) {
     console.log(`${pkg.name} v${pkg.version}
+chiefbiiko <hello@nugget.digital>
 Find free STARCAR rides
 
 USAGE:
