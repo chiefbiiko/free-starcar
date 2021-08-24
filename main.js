@@ -1,18 +1,45 @@
+#!/usr/bin/env node
+
 const { JSDOM } = require("jsdom")
 const fetch = require("node-fetch")
+const minimist = require("minimist")
+const pkg = require("./package.json")
 
-const config = {
-  from: process.env.FROM?.toLowerCase(),
-  to: process.env.TO?.toLowerCase()
-}
+const argv = minimist(process.argv.slice(2), {
+  alias: { help: "h", version: "v", daemon: "d" }
+})
+argv.from = argv.from?.toLowerCase()
+argv.to = argv.to?.toLowerCase()
 
-function cut(s) {
-  s = s.trim()
-  return s.slice(0, s.indexOf("\n"))
-}
+main()
 
-function clr(s) {
-  return s.replace(/\s+/, " ")
+function main() {
+  if (argv.version) {
+    console.log(`v${pkg.version}`)
+  } else if (argv.help) {
+    console.log(`${pkg.name} v${pkg.version}
+Find free STARCAR rides
+
+USAGE:
+    starcar [FLAGS] [OPTIONS]
+
+FLAGS:
+    -d, --daemon     Enables daemon mode
+    -h, --help       Prints help information
+    -v, --version    Prints version information
+
+OPTIONS:
+    --from            Start location
+    --to              Destination
+`)
+  } else if (argv.daemon) {
+    console.log(`[${new Date().toISOString()}] 👺 startin' a daemon`)
+    const stash = []
+    mine(argv.daemon, stash)
+    setInterval(mine.bind(null, argv.daemon, stash), 60000)
+  } else {
+    mine()
+  }
 }
 
 async function mine(daemon = false, stash = []) {
@@ -38,17 +65,17 @@ async function mine(daemon = false, stash = []) {
     }
   })
 
-  if (config.from && config.to) {
+  if (argv.from && argv.to) {
     inf = inf.filter(
       inf =>
-        inf.startLocation.toLowerCase().includes(config.from) &&
-        inf.endLocation.toLowerCase().includes(config.to)
+        inf.startLocation.toLowerCase().includes(argv.from) &&
+        inf.endLocation.toLowerCase().includes(argv.to)
     )
-  } else if (config.from || config.to) {
+  } else if (argv.from || argv.to) {
     inf = inf.filter(
       inf =>
-        inf.startLocation.toLowerCase().includes(config.from) ||
-        inf.endLocation.toLowerCase().includes(config.to)
+        inf.startLocation.toLowerCase().includes(argv.from) ||
+        inf.endLocation.toLowerCase().includes(argv.to)
     )
   }
 
@@ -87,23 +114,22 @@ async function mine(daemon = false, stash = []) {
         )}`
       )
     } else {
-      console.log(`[${new Date().toISOString()}] 🕳️ nothing ${daemon ? "new" : "found"}`)
+      console.log(
+        `[${new Date().toISOString()}] 🕳️ nothing ${daemon ? "new" : "found"}`
+      )
     }
   } else {
-    console.log(`[${new Date().toISOString()}] 🕳️ nothing ${daemon ? "new" : "found"}`)
+    console.log(
+      `[${new Date().toISOString()}] 🕳️ nothing ${daemon ? "new" : "found"}`
+    )
   }
 }
 
-function main() {
-  const daemon = process.argv.some(arg => arg === "-D" || arg === "--daemon")
-  if (daemon) {
-    console.log(`[${new Date().toISOString()}] 👺 startin' a daemon`)
-    const stash = []
-    mine(daemon, stash)
-    setInterval(mine.bind(null, daemon, stash), 60000)
-  } else {
-    mine()
-  }
+function cut(s) {
+  s = s.trim()
+  return s.slice(0, s.indexOf("\n"))
 }
 
-main()
+function clr(s) {
+  return s.replace(/\s+/, " ")
+}

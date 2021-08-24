@@ -3,9 +3,13 @@
     "version": "0.0.0",
     "dependencies": {
         "jsdom": "17.0.0",
+        "minimist": "1.2.5",
         "node-fetch": "2.6.1"
     },
     "scripts": {
         "fmt": "npx prettier --no-semi --arrow-parens avoid --trailing-comma none --print-width 80 --write './main.js'"
+    },
+    "bin": {
+        "starcar": "./main.js"
     }
 }

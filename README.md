@@ -9,3 +9,9 @@ little tool to mine free starcar oneway rides
 + 🚚
 + 👺 bike shed daemon mode
 + desktop notifications?
+
+## usage
+
+```bash
+FROM=Hamburg TO=Berlin node main.js --daemon
+```
